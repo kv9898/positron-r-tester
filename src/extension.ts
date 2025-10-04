@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 
 import { registerCommands } from './commands';
-import { providePackageTasks } from './tasks';
+// import { providePackageTasks } from './tasks';
 import { setContexts } from './contexts';
 import { setupTestExplorer, refreshTestExplorer } from './testing/testing';
 
@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 	registerCommands(context);
 
 	// Provide tasks.
-	providePackageTasks(context);
+	// providePackageTasks(context);
 
 	// Setup testthat test explorer.
 	setupTestExplorer(context);
