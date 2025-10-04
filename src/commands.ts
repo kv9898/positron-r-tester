@@ -5,7 +5,7 @@
 
 import * as vscode from 'vscode';
 // import { checkInstalled } from './session';
-import { RRuntimeManager } from './runtime-manager';
+// import { RRuntimeManager } from './runtime-manager';
 // import { getRPackageTasks } from './tasks';
 import { onDidDiscoverTestFiles } from './testing/testing';
 
