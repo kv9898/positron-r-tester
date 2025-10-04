@@ -128,7 +128,7 @@ export async function runThatTest(
 		let stdout = '';
 		const testStartDates = new WeakMap<vscode.TestItem, number>();
 		childProcess.stdout!
-			.pipe(split2((line: string) => {
+			.pipe(split2.default((line: string) => {
 				try {
 					return JSON.parse(line);
 				} catch { }
