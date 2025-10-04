@@ -503,7 +503,7 @@ export class RSession implements positron.LanguageRuntimeSession, vscode.Disposa
 				}
 			}
 		}
-		// Possible sceanrios:
+		// Possible scenarios:
 		// - We're skipping the cache and refreshing the package info.
 		// - The package isn't in the cache.
 		// - The package is in the cache, but version is insufficient (last time we checked).
@@ -882,7 +882,7 @@ export class RSession implements positron.LanguageRuntimeSession, vscode.Disposa
 				LOGGER.info(`Unknown DAP message: ${message.method}`);
 
 				if (message.kind === 'request') {
-					message.handle(() => { throw new Error(`Unknown request '${message.method}' for DAP comm`) });
+					message.handle(() => { throw new Error(`Unknown request '${message.method}' for DAP comm`); });
 				}
 			}
 		}
