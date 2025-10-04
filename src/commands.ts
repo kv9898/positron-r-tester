@@ -9,7 +9,7 @@ import { RRuntimeManager } from './runtime-manager';
 // import { getRPackageTasks } from './tasks';
 import { onDidDiscoverTestFiles } from './testing/testing';
 
-export async function registerCommands(context: vscode.ExtensionContext, runtimeManager: RRuntimeManager) {
+export async function registerCommands(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
 
