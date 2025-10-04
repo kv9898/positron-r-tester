@@ -71,8 +71,13 @@ export async function refreshTestthatStatus(): Promise<void> {
 		const isRPackage = await detectRPackage();
 		const hasTestthat = await detectTestthat();
 
-		if (!isRPackage && !hasTestthat) {
-			LOGGER.info('Not working in an R package or a project using testthat');
+		if (isRPackage) {
+			LOGGER.info('Working in an R package (you should use the builtin testing support)');
+			return;
+		}
+
+		if (!hasTestthat) {
+			LOGGER.info('Not working in an R project using testthat');
 			return;
 		}
 
