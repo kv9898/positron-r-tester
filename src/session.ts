@@ -19,32 +19,31 @@ export async function checkInstalled(pkgName: string,
 	const rTmpPath = tmpPath.replace(/\\/g, '/');
 
 	const rCode = `
-    (function() {
-      jsonlite::write_json(
-        {
-          do.call(rbind, lapply(.libPaths(), function(lib) {
-            if (!dir.exists(lib)) return(NULL)
+	(function() {
+	jsonlite::write_json(
+		{
+		do.call(rbind, lapply(.libPaths(), function(lib) {
+			if (!dir.exists(lib)) return(NULL)
 
-            pkgs <- installed.packages(lib.loc = lib)[, c("Package", "Version"), drop = FALSE]
-            if (nrow(pkgs) == 0) return(NULL)
+			pkgs <- installed.packages(lib.loc = lib)[, c("Package", "Version"), drop = FALSE]
+			if (nrow(pkgs) == 0) return(NULL)
 
-            df <- data.frame(
-              Package = pkgs[, "Package"],
-              Version = pkgs[, "Version"],
-              },
-              stringsAsFactors = FALSE
-            )
+			df <- data.frame(
+			Package = pkgs[, "Package"],
+			Version = pkgs[, "Version"],
+			stringsAsFactors = FALSE
+			)
 
-            df
-          })) -> result
+			df
+		})) -> result
 
-          if (is.null(result)) list() else result[order(result$Package, result$LibPath), ]
-        },
-        path = "${rTmpPath}",
-        auto_unbox = TRUE
-      )
-    })()
-  `.trim();
+		if (is.null(result)) list() else result[order(result$Package), ]
+		},
+		path = "${rTmpPath}",
+		auto_unbox = TRUE
+	)
+	})()
+	`.trim();
 
 	const observer = getObserver("Error refreshing packages: {0}");
 
