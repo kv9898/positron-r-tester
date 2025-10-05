@@ -96,9 +96,42 @@ export async function checkInstalled(pkgName: string,
 		return false;
 	}
 	if (pkgVersion) {
-		return pkgInfo.some(pkg => pkg.version === pkgVersion);
+		return pkgInfo.some(pkg => compareVersions(pkg.version, pkgVersion) >= 0);
 	}
 	return true;
+}
+
+/**
+ * Compare two semantic version strings.
+ * @param installed The installed version
+ * @param required The minimum required version
+ * @returns -1 if installed < required, 0 if equal, 1 if installed > required
+ */
+function compareVersions(installed: string, required: string): number {
+	const parseParts = (version: string): number[] => {
+		return version.split(/[.-]/).map(part => {
+			const num = parseInt(part, 10);
+			return isNaN(num) ? 0 : num;
+		});
+	};
+
+	const installedParts = parseParts(installed);
+	const requiredParts = parseParts(required);
+	const maxLength = Math.max(installedParts.length, requiredParts.length);
+
+	for (let i = 0; i < maxLength; i++) {
+		const installedPart = installedParts[i] || 0;
+		const requiredPart = requiredParts[i] || 0;
+
+		if (installedPart > requiredPart) {
+			return 1;
+		}
+		if (installedPart < requiredPart) {
+			return -1;
+		}
+	}
+
+	return 0;
 }
 
 export async function getLocale(): Promise<Locale> {
