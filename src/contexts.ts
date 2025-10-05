@@ -36,13 +36,20 @@ export async function getRPackageName(): Promise<string> {
 }
 
 export async function detectTestthat(): Promise<boolean> {
-    // Check if the workspace has a tests/testthat directory structure
     if (vscode.workspace.workspaceFolders !== undefined) {
         const folderUri = vscode.workspace.workspaceFolders[0].uri;
+
+        // Pattern for tests/testthat.[Rr]
         const testthatDotRPattern = 'tests/testthat.[Rr]';
-        const pattern = new vscode.RelativePattern(folderUri, testthatDotRPattern);
-        const testthatDotR = await vscode.workspace.findFiles(pattern, null, 1);
-        return testthatDotR.length > 0;
+        const patternDotR = new vscode.RelativePattern(folderUri, testthatDotRPattern);
+        const testthatDotR = await vscode.workspace.findFiles(patternDotR, null, 1);
+
+        // Pattern for tests/testthat/test-*.[Rr]
+        const testFilePattern = 'tests/testthat/test-*.[Rr]';
+        const patternTestFiles = new vscode.RelativePattern(folderUri, testFilePattern);
+        const testFiles = await vscode.workspace.findFiles(patternTestFiles, null, 1);
+
+        return testthatDotR.length > 0 || testFiles.length > 0;
     }
     return false;
 }
