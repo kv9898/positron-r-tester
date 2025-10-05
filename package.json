@@ -56,5 +56,9 @@
     "p-queue": "6.6.2",
     "split2": "^4.2.0",
     "web-tree-sitter": "0.20.8"
+  },
+  "positron": {
+    "minimumRVersion": "4.2.0",
+    "minimumRenvVersion": "1.0.9"
   }
 }
