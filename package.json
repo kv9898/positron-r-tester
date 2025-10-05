@@ -1,6 +1,6 @@
 {
   "name": "positron-r-tester",
-  "displayName": "positron-r-tester",
+  "displayName": "Positron R Tester",
   "description": "View and run your R (testthat) tests in the Siderbar of Positron, for non-package projects",
   "author": "Dianyi Yang <dianyi.yang@politics.ox.ac.uk>",
   "version": "0.0.1",
