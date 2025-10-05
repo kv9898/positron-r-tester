@@ -2,6 +2,7 @@
   "name": "positron-r-tester",
   "displayName": "positron-r-tester",
   "description": "View and run your R (testthat) tests in the Siderbar of Positron, for non-package projects",
+  "author": "Dianyi Yang <dianyi.yang@politics.ox.ac.uk>",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.104.0"
@@ -9,7 +10,10 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:r",
+    "onView:test-explorer"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
