@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from 'vscode';
+import * as Positron from 'positron';
 import * as path from 'path';
 import { spawn } from 'child_process';
 import * as split2 from 'split2';
@@ -13,7 +14,6 @@ import { EXTENSION_ROOT_DIR } from '../constants';
 import { ItemType, TestingTools, encodeNodeId } from './util-testing';
 import { TestResult } from './reporter';
 import { parseTestsFromFile } from './parser';
-import { RSessionManager } from '../session-manager';
 
 const testReporterPath = path
 	.join(EXTENSION_ROOT_DIR, 'resources', 'testing', 'vscodereporter')
@@ -26,7 +26,8 @@ export async function runThatTest(
 ): Promise<string> {
 	// in all scenarios, we execute testthat::SOMETHING() in a child process
 	// if we can't get the path to the relevant R executable, no point in continuing
-	if (!RSessionManager.instance.hasLastBinpath()) {
+	const runtime = await Positron.runtime.getPreferredRuntime('r');
+	if (!runtime) {
 		return Promise.resolve('No running R runtime to run R package tests.');
 	}
 
@@ -105,7 +106,7 @@ export async function runThatTest(
 		`testthat::${testthatMethod}('${testthatPath}',` +
 		`${filterInsert}reporter = VSCodeReporter())`;
 
-	const binpath = RSessionManager.instance.getLastBinpath();
+	const binpath = runtime.runtimePath;
 	const command = `"${binpath}" --no-echo -e "${rCall}"`;
 	LOGGER.info(`R call is:\n${command}`);
 
