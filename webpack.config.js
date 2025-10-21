@@ -60,8 +60,8 @@ const extensionConfig = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "resources",
-          to: "resources",
+          from: "resources/testing",
+          to: "resources/testing",
         },
         {
           from: "node_modules/web-tree-sitter/tree-sitter.wasm",
