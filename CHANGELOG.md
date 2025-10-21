@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Integration with Positron's Test Explorer sidebar
 - Support for running individual tests, test files, and entire test suites
 - Automatic test file watching and refresh
-- Support for `test_that()` test blocks
+- Support for `test_that()` and `describe()` test blocks
 - Conformation to configuration option `positron.r.testing` to enable/disable test explorer
 
 ### Requirements
