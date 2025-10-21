@@ -4,6 +4,10 @@
   "description": "View and run your R (testthat) tests in the Siderbar of Positron, for non-package projects",
   "author": "Dianyi Yang <dianyi.yang@politics.ox.ac.uk>",
   "publisher": "kv9898",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kv9898/positron-r-tester.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"
