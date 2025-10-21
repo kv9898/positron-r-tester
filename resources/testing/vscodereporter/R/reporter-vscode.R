@@ -4,8 +4,52 @@
 #' [R Test Explorer](https://github.com/meakbiyik/vscode-r-test-adapter).
 #'
 #' @export
+
+# Helper functions - defined BEFORE the R6 class
+expectation_type <- function(exp) {
+  stopifnot(testthat::is.expectation(exp))
+  gsub("^expectation_", "", class(exp)[[1]])
+}
+
+expectation_success <- function(exp) expectation_type(exp) == "success"
+expectation_failure <- function(exp) expectation_type(exp) == "failure"
+expectation_error   <- function(exp) expectation_type(exp) == "error"
+expectation_skip    <- function(exp) expectation_type(exp) == "skip"
+expectation_warning <- function(exp) expectation_type(exp) == "warning"
+expectation_broken  <- function(exp) expectation_failure(exp) || expectation_error(exp)
+expectation_requires_message  <- function(exp) expectation_broken(exp) || expectation_skip(exp)
+expectation_ok      <- function(exp) expectation_type(exp) %in% c("success", "warning")
+
+expectation_message <- function(x) {
+  if (expectation_requires_message(x)) {
+    x$message
+  } else {
+    NULL
+  }
+}
+
+expectation_filename <- function(x) {
+  return(
+    if(is.null(x$srcref)) "" else attr(x$srcref, "srcfile")$filename
+  )
+}
+
+expectation_location <- function(x) {
+  if (is.null(x$srcref)) {
+    "???"
+  } else {
+    filename <- attr(x$srcref, "srcfile")$filename
+    if (identical(filename, "")) {
+      paste0("Line ", x$srcref[1])
+    } else {
+      paste0(basename(filename), ":", x$srcref[1], ":", x$srcref[2])
+    }
+  }
+}
+
+# R6 Class definition - AFTER helper functions
 VSCodeReporter <- R6::R6Class("VSCodeReporter",
-  inherit = Reporter,
+  inherit = testthat::Reporter,
   private = list(
     filename = NULL
   ),
@@ -65,44 +109,3 @@ VSCodeReporter <- R6::R6Class("VSCodeReporter",
     }
   )
 )
-
-expectation_type <- function(exp) {
-  stopifnot(is.expectation(exp))
-  gsub("^expectation_", "", class(exp)[[1]])
-}
-
-expectation_success <- function(exp) expectation_type(exp) == "success"
-expectation_failure <- function(exp) expectation_type(exp) == "failure"
-expectation_error   <- function(exp) expectation_type(exp) == "error"
-expectation_skip    <- function(exp) expectation_type(exp) == "skip"
-expectation_warning <- function(exp) expectation_type(exp) == "warning"
-expectation_broken  <- function(exp) expectation_failure(exp) || expectation_error(exp)
-expectation_requires_message  <- function(exp) expectation_broken(exp) || expectation_skip(exp)
-expectation_ok      <- function(exp) expectation_type(exp) %in% c("success", "warning")
-
-expectation_message <- function(x) {
-  if (expectation_requires_message(x)) {
-    x$message
-  } else {
-    NULL
-  }
-}
-
-expectation_filename <- function(x) {
-  return(
-    if(is.null(x$srcref)) "" else attr(x$srcref, "srcfile")$filename
-  )
-}
-
-expectation_location <- function(x) {
-  if (is.null(x$srcref)) {
-    "???"
-  } else {
-    filename <- attr(x$srcref, "srcfile")$filename
-    if (identical(filename, "")) {
-      paste0("Line ", x$srcref[1])
-    } else {
-      paste0(basename(filename), ":", x$srcref[1], ":", x$srcref[2])
-    }
-  }
-}
