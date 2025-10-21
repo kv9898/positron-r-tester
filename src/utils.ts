@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as positron from 'positron';
 import fs from 'fs';
+import { LOGGER } from './extension';
 
 /**
  * Returns an ExecutionObserver that shows an error message using the given template
@@ -97,4 +98,37 @@ export async function waitForFile(filePath: string, timeout = 1000): Promise<voi
  */
 export function stripAnsi(text: string): string {
     return text.replace(/\x1b\[[0-9;]*m/g, '');
+}
+
+export async function getActiveOrPreferredRRuntime(logger: typeof LOGGER) {
+    // Try to find an active R session
+    const sessions = await positron.runtime.getActiveSessions();
+    const rSession = sessions.find(
+        s => s.runtimeMetadata.languageId === 'r'
+    );
+    if (rSession) {
+        logger.info( // TODO: remove logger 
+            `Using active R session: ${rSession.runtimeMetadata.runtimePath}\n` +
+            `Session info: ${JSON.stringify(rSession.runtimeMetadata, null, 2)}`
+        );
+        return rSession.runtimeMetadata;
+    }
+
+    // Fallback: get preferred runtime
+    const preferred = await positron.runtime.getPreferredRuntime('r');
+    if (preferred) {
+        logger.info( // TODO: remove logger 
+            `Using preferred R runtime: ${preferred.runtimePath}\n` +
+            `Runtime info: ${JSON.stringify(preferred, null, 2)}`
+        );
+        return preferred;
+    }
+
+    // Log all available runtimes for debugging
+    const allRuntimes = await positron.runtime.getRegisteredRuntimes();
+    logger.error(
+        `No active or preferred R runtime found. Registered runtimes:\n` +
+        allRuntimes.map(rt => JSON.stringify(rt, null, 2)).join('\n')
+    );
+    return undefined;
 }

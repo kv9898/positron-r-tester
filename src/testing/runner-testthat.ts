@@ -14,6 +14,7 @@ import { EXTENSION_ROOT_DIR } from '../constants';
 import { ItemType, TestingTools, encodeNodeId } from './util-testing';
 import { TestResult } from './reporter';
 import { parseTestsFromFile } from './parser';
+import { getActiveOrPreferredRRuntime } from '../utils';
 
 const testReporterPath = path
 	.join(EXTENSION_ROOT_DIR, 'resources', 'testing', 'vscodereporter')
@@ -26,7 +27,7 @@ export async function runThatTest(
 ): Promise<string> {
 	// in all scenarios, we execute testthat::SOMETHING() in a child process
 	// if we can't get the path to the relevant R executable, no point in continuing
-	const runtime = await Positron.runtime.getPreferredRuntime('r');
+	const runtime = await getActiveOrPreferredRRuntime(LOGGER);
 	if (!runtime) {
 		return Promise.resolve('No running R runtime to run R package tests.');
 	}
