@@ -13,6 +13,7 @@
   "bugs": {
     "url": "https://github.com/kv9898/positron-r-tester/issues"
   },
+  "icon": "resources/icon.png",
   "keywords": [
     "R",
     "testthat",
