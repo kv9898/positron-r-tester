@@ -107,7 +107,7 @@ export async function runThatTest(
 		: testPath;
 
 	const rCall =
-		`source('${testReporterPath}/R/reporter.R');` +
+		`source('${testReporterPath}/R/reporter-vscode.R');` +
 		`testthat::${testthatMethod}('${testthatPath}',` +
 		`${filterInsert}reporter = VSCodeReporter())`;
 
