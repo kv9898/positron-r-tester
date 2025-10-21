@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as positron from 'positron';
-import fs from 'fs';
+import * as fs from 'fs';
 import { LOGGER } from './extension';
 
 /**

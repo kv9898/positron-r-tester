@@ -28,6 +28,10 @@ export async function runThatTest(
 	// in all scenarios, we execute testthat::SOMETHING() in a child process
 	// if we can't get the path to the relevant R executable, no point in continuing
 	const runtime = await getActiveOrPreferredRRuntime(LOGGER);
+	LOGGER.info(
+		`Preferred R runtime: ${runtime?.runtimePath}\n` +
+		`Runtime info: ${JSON.stringify(runtime, null, 2)}`
+	);
 	if (!runtime) {
 		return Promise.resolve('No running R runtime to run R package tests.');
 	}
@@ -130,7 +134,7 @@ export async function runThatTest(
 		let stdout = '';
 		const testStartDates = new WeakMap<vscode.TestItem, number>();
 		childProcess.stdout!
-			.pipe(split2.default((line: string) => {
+			.pipe(split2((line: string) => {
 				try {
 					return JSON.parse(line);
 				} catch { }
