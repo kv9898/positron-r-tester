@@ -3,7 +3,7 @@
 "use strict";
 
 const path = require("path");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -13,7 +13,7 @@ const extensionConfig = {
   target: "node",
   mode: "none",
   node: {
-    __dirname: false // leave the __dirname-behaviour intact
+    __dirname: false, // leave the __dirname-behaviour intact
   },
 
   entry: "./src/extension.ts",
@@ -21,7 +21,7 @@ const extensionConfig = {
     path: path.resolve(__dirname, "dist"),
     filename: "extension.js",
     libraryTarget: "commonjs2",
-    webassemblyModuleFilename: '[hash].wasm'
+    webassemblyModuleFilename: "[hash].wasm",
   },
   externals: {
     vscode: "commonjs vscode",
@@ -46,11 +46,11 @@ const extensionConfig = {
       },
       {
         test: /\.wasm$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: '[name].[hash][ext]',
+          filename: "[name].[hash][ext]",
         },
-      }
+      },
     ],
   },
   experiments: {
@@ -60,11 +60,15 @@ const extensionConfig = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'resources',
-          to: 'resources'
-        }
-      ]
-    })
+          from: "resources",
+          to: "resources",
+        },
+        {
+          from: "node_modules/web-tree-sitter/tree-sitter.wasm",
+          to: "tree-sitter.wasm",
+        },
+      ],
+    }),
   ],
   devtool: "nosources-source-map",
   infrastructureLogging: {
