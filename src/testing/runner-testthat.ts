@@ -107,9 +107,9 @@ export async function runThatTest(
 		: testPath;
 
 	const rCall =
-		`source('${testReporterPath}/R/reporter-vscode.R');` +
+		`devtools::load_all('${testReporterPath}'); ` +
 		`testthat::${testthatMethod}('${testthatPath}',` +
-		`${filterInsert}reporter = VSCodeReporter())`;
+		`${filterInsert}reporter = VSCodeReporter)`;
 
 	const binpath = runtime.runtimePath;
 	const command = `"${binpath}" --no-echo -e "${rCall}"`;
