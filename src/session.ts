@@ -175,7 +175,6 @@ export async function getLocale(): Promise<Locale> {
 }
 
 interface Locale {
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	LANG: string;
 	[key: string]: string;
 }

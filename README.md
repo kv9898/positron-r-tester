@@ -1,71 +1,61 @@
-# positron-r-tester README
+# Positron R Tester
 
-This is the README for your extension "positron-r-tester". After writing up a brief description, we recommend including the following sections.
+A Positron extension that brings R (testthat) test discovery and execution to the Test Explorer sidebar for non-package R projects.
+
+## Overview
+
+Positron R Tester enables you to view and run your R testthat tests directly from Positron's Test Explorer sidebar, even when you're not working within an R package structure. This extension is designed specifically for standalone R projects that use testthat for testing but aren't organized as formal R packages.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Test Discovery**: Automatically discovers testthat test files in your project
+- **Test Explorer Integration**: View all your tests in Positron's Test Explorer sidebar
+- **Individual Test Execution**: Run individual tests, test files, or entire test suites
+- **Test Results**: See test results directly in the Test Explorer with pass/fail status
+- **File Watching**: Automatically updates test list when test files are added, modified, or removed
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- **Positron**: This extension requires Positron (not VS Code)
+- **R**: R version 4.2.0 or higher
+- **testthat**: The testthat R package must be installed
+- **Project Structure**: Tests should be organized in a `tests/testthat/` directory structure
+  - Test files should follow the naming convention `test-*.R` or `test_*.R`
+  - Tests should use `testthat::test_that()` and `testthat::describe()` functions
 
-## Extension Settings
+## Installation
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+1. Install the extension from the Positron extensions marketplace
+2. Ensure you have R 4.2.0+ and testthat installed
+3. Open an R project with tests in the `tests/testthat/` directory
 
-For example:
+## Configuration
 
-This extension contributes the following settings:
+Enable or disable the test explorer through Positron settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `positron.r.testing`: Enable/disable R testing features (default: enabled when testthat is detected)
 
-## Known Issues
+## Usage
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+1. Open an R project containing a `tests/testthat/` directory
+2. The Test Explorer will automatically discover your tests
+3. Click on the Testing icon in the sidebar to view all discovered tests
+4. Run tests by clicking the play button next to individual tests, test files, or the entire suite
+5. View test results in the Test Explorer with pass/fail indicators
 
-## Release Notes
+## Known Limitations
 
-Users appreciate release notes as you update your extension.
+- **Non-Package Projects Only**: This extension is designed for non-package R projects. If your project has a DESCRIPTION file indicating it's an R package, the extension will not activate (use Positron's built-in package testing features instead)
+- **testthat Required**: Only works with projects using the testthat testing framework
 
-### 1.0.0
+## Contributing
 
-Initial release of ...
+Contributions are welcome! Please visit the [GitHub repository](https://github.com/kv9898/positron-r-tester) to report issues or submit pull requests.
 
-### 1.0.1
+## License
 
-Fixed issue #.
+This extension includes code derived from Positron, which is licensed under the Elastic License 2.0.
 
-### 1.1.0
+## Acknowledgments
 
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This extension is built upon testing infrastructure from [Positron](https://github.com/posit-dev/positron), developed by Posit Software, PBC.

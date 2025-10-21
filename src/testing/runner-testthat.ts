@@ -121,7 +121,6 @@ export async function runThatTest(
 	LOGGER.info(`Locale info from active R session: ${JSON.stringify(locale, null, 2)}`);
 	let hostFile = '';
 	// TODO @jennybc: if this code stays, figure this out
-	// eslint-disable-next-line no-async-promise-executor
 	return new Promise<string>(async (resolve, reject) => {
 		const childProcess = spawn(command, {
 			cwd: wd,

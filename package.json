@@ -1,34 +1,40 @@
 {
   "name": "positron-r-tester",
   "displayName": "Positron R Tester",
-  "description": "View and run your R (testthat) tests in the Siderbar of Positron, for non-package projects",
+  "description": "View and run your R (testthat) tests in the Sidebar of Positron, for non-package projects",
   "author": "Dianyi Yang <dianyi.yang@politics.ox.ac.uk>",
   "publisher": "kv9898",
+  "license": "Elastic-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/kv9898/positron-r-tester.git"
   },
+  "homepage": "https://github.com/kv9898/positron-r-tester#readme",
+  "bugs": {
+    "url": "https://github.com/kv9898/positron-r-tester/issues"
+  },
   "icon": "resources/icon.png",
+  "keywords": [
+    "R",
+    "testthat",
+    "testing",
+    "test-explorer",
+    "positron",
+    "r-language"
+  ],
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"
   },
   "categories": [
-    "Other"
+    "Testing"
   ],
   "activationEvents": [
     "onLanguage:r",
     "onView:test-explorer"
   ],
   "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "positron-r-tester.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
+  "contributes": {},
   "scripts": {
     "vscode:prepublish": "yarn run package",
     "compile": "webpack",
