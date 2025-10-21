@@ -107,7 +107,7 @@ export async function getActiveOrPreferredRRuntime(logger: typeof LOGGER) {
         s => s.runtimeMetadata.languageId === 'r'
     );
     if (rSession) {
-        logger.info( // TODO: remove logger 
+        logger.info(
             `Using active R session: ${rSession.runtimeMetadata.runtimePath}\n` +
             `Session info: ${JSON.stringify(rSession.runtimeMetadata, null, 2)}`
         );
@@ -117,7 +117,7 @@ export async function getActiveOrPreferredRRuntime(logger: typeof LOGGER) {
     // Fallback: get preferred runtime
     const preferred = await positron.runtime.getPreferredRuntime('r');
     if (preferred) {
-        logger.info( // TODO: remove logger 
+        logger.info(
             `Using preferred R runtime: ${preferred.runtimePath}\n` +
             `Runtime info: ${JSON.stringify(preferred, null, 2)}`
         );
