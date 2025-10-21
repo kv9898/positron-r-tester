@@ -3,33 +3,35 @@
 "use strict";
 
 const path = require("path");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
 /** @type WebpackConfig */
 const extensionConfig = {
-  target: "node", // VS Code extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
-  mode: "none", // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
+  target: "node",
+  mode: "none",
+  node: {
+    __dirname: false // leave the __dirname-behaviour intact
+  },
 
-  entry: "./src/extension.ts", // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
+  entry: "./src/extension.ts",
   output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
     path: path.resolve(__dirname, "dist"),
     filename: "extension.js",
     libraryTarget: "commonjs2",
+    webassemblyModuleFilename: '[hash].wasm'
   },
   externals: {
-    vscode: "commonjs vscode", // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
+    vscode: "commonjs vscode",
     positron: "commonjs positron",
-    // modules added here also need to be added in the .vscodeignore file
   },
   resolve: {
-    // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
     alias: {
-      positron: path.resolve(__dirname, "positron-dts/positron.d.ts"), // Add the alias here
+      positron: path.resolve(__dirname, "positron-dts/positron.d.ts"),
     },
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".js", ".wasm"],
   },
   module: {
     rules: [
@@ -42,11 +44,31 @@ const extensionConfig = {
           },
         ],
       },
+      {
+        test: /\.wasm$/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name].[hash][ext]',
+        },
+      }
     ],
   },
+  experiments: {
+    asyncWebAssembly: true,
+  },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'resources',
+          to: 'resources'
+        }
+      ]
+    })
+  ],
   devtool: "nosources-source-map",
   infrastructureLogging: {
-    level: "log", // enables logging required for problem matchers
+    level: "log",
   },
 };
 module.exports = [extensionConfig];
