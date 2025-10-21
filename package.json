@@ -9,6 +9,18 @@
     "type": "git",
     "url": "https://github.com/kv9898/positron-r-tester.git"
   },
+  "homepage": "https://github.com/kv9898/positron-r-tester#readme",
+  "bugs": {
+    "url": "https://github.com/kv9898/positron-r-tester/issues"
+  },
+  "keywords": [
+    "R",
+    "testthat",
+    "testing",
+    "test-explorer",
+    "positron",
+    "r-language"
+  ],
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"
