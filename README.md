@@ -19,6 +19,7 @@ Positron R Tester enables you to view and run your R testthat tests directly fro
 - **Positron**: This extension requires Positron (not VS Code)
 - **R**: R version 4.2.0 or higher
 - **testthat**: The testthat R package must be installed
+- **devtools**: The devtools R package must be installed for running tests in Positron
 - **Project Structure**: Tests should be organized in a `tests/testthat/` directory structure
   - Test files should follow the naming convention `test-*.R` or `test_*.R`
   - Tests should use `testthat::test_that()` and `testthat::describe()` functions
