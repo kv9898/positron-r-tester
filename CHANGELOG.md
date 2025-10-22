@@ -4,7 +4,11 @@ All notable changes to the "positron-r-tester" extension will be documented in t
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [0.0.1]
+## 0.0.2
+
+- Add `devtools` package as a requirement for running tests in Positron.
+
+## 0.0.1
 
 ### Added
 - Initial release
