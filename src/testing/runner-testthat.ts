@@ -41,6 +41,14 @@ export async function runThatTest(
 		return Promise.resolve('testthat >= 3.0.2 is needed to run R tests.');
 	}
 
+	// devtools 2.4.0 was released 2021-04-07
+	// chosen as minimum version because that's when test_active_file() was introduced
+	// indirectly imposes requirement for testthat >= 3.0.2
+	const devtoolsInstalled = await checkInstalled('devtools', '2.4.0');
+	if (!devtoolsInstalled) {
+		return Promise.resolve('devtools >= 2.4.0 is needed to run R tests in Positron.');
+	}
+
 	const getType = (testItem?: vscode.TestItem) => {
 		if (testItem) {
 			return testingTools.testItemData.get(testItem)!;
