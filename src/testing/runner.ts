@@ -82,6 +82,11 @@ export async function runHandler(
 				const errorMessage = new vscode.TestMessage(stdout);
 				if (test) {
 					run.errored(test, errorMessage, Date.now() - startDate);
+				} else if (runAllTests) {
+					// When running all tests, mark all test items as errored
+					testingTools.controller.items.forEach((testItem) => {
+						run.errored(testItem, errorMessage, Date.now() - startDate);
+					});
 				}
 			} else {
 				LOGGER.info(`Test output:\n${stdout}`);
