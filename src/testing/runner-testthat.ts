@@ -33,12 +33,12 @@ export async function runThatTest(
 		`Runtime info: ${JSON.stringify(runtime, null, 2)}`
 	);
 	if (!runtime) {
-		return Promise.resolve('No running R runtime to run R package tests.');
+		return Promise.reject(new Error('No running R runtime to run R package tests.'));
 	}
 
 	const testthatInstalled = await checkInstalled('testthat', '3.0.2');
 	if (!testthatInstalled) {
-		return Promise.resolve('testthat >= 3.0.2 is needed to run R tests.');
+		return Promise.reject(new Error('testthat >= 3.0.2 is needed to run R tests.'));
 	}
 
 	// devtools 2.4.0 was released 2021-04-07
@@ -46,7 +46,7 @@ export async function runThatTest(
 	// indirectly imposes requirement for testthat >= 3.0.2
 	const devtoolsInstalled = await checkInstalled('devtools', '2.4.0');
 	if (!devtoolsInstalled) {
-		return Promise.resolve('devtools >= 2.4.0 is needed to run R tests in Positron.');
+		return Promise.reject(new Error('devtools >= 2.4.0 is needed to run R tests in Positron.'));
 	}
 
 	const getType = (testItem?: vscode.TestItem) => {
@@ -62,7 +62,7 @@ export async function runThatTest(
 		case ItemType.TestThat: {
 			const testthatInstalled = await checkInstalled('testthat', '3.2.0');
 			if (!testthatInstalled) {
-				return Promise.resolve('testthat >= 3.2.0 is needed to run R a single test_that() test.');
+				return Promise.reject(new Error('testthat >= 3.2.0 is needed to run R a single test_that() test.'));
 			}
 			LOGGER.info('Single test_that() test');
 			break;
@@ -71,13 +71,13 @@ export async function runThatTest(
 		case ItemType.Describe: {
 			const testthatInstalled = await checkInstalled('testthat', '3.2.1');
 			if (!testthatInstalled) {
-				return Promise.resolve('testthat >= 3.2.1 is needed to run a single describe() test.');
+				return Promise.reject(new Error('testthat >= 3.2.1 is needed to run a single describe() test.'));
 			}
 			LOGGER.info('Single describe() test');
 			break;
 		}
 		case ItemType.It:
-			return Promise.resolve('Individual it() call: can\'t be run individually.');
+			return Promise.reject(new Error('Individual it() call: can\'t be run individually.'));
 		case ItemType.File:
 			LOGGER.info('Test type is file');
 			if (test!.children.size === 0) {
