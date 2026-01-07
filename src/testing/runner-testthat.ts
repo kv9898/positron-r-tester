@@ -62,7 +62,7 @@ export async function runThatTest(
 		case ItemType.TestThat: {
 			const testthatInstalled = await checkInstalled('testthat', '3.2.0');
 			if (!testthatInstalled) {
-				return Promise.reject(new Error('testthat >= 3.2.0 is needed to run R a single test_that() test.'));
+				return Promise.reject(new Error('testthat >= 3.2.0 is needed to run a single test_that() test.'));
 			}
 			LOGGER.info('Single test_that() test');
 			break;
