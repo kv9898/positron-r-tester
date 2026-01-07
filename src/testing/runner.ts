@@ -70,7 +70,21 @@ export async function runHandler(
 				LOGGER.info(`Running test with label "${test!.label}"`);
 			}
 			const stdout = await runThatTest(testingTools, run, test);
-			LOGGER.info(`Test output:\n${stdout}`);
+			
+			// Check if the output indicates a dependency/setup error
+			const isDependencyError = 
+				stdout.includes('is needed to run') || 
+				stdout.includes('No running R runtime');
+			
+			if (isDependencyError) {
+				LOGGER.error(`Test output:\n${stdout}`);
+				const errorMessage = new vscode.TestMessage(stdout);
+				if (test) {
+					run.errored(test, errorMessage, Date.now() - startDate);
+				}
+			} else {
+				LOGGER.info(`Test output:\n${stdout}`);
+			}
 		} catch (error) {
 			LOGGER.error(`Run errored with reason: "${error}"`);
 			if (test) {
