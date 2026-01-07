@@ -74,7 +74,8 @@ export async function runHandler(
 			// Check if the output indicates a dependency/setup error
 			const isDependencyError = 
 				stdout.includes('is needed to run') || 
-				stdout.includes('No running R runtime');
+				stdout.includes('No running R runtime') ||
+				stdout.includes('can\'t be run individually');
 			
 			if (isDependencyError) {
 				LOGGER.error(`Test output:\n${stdout}`);
