@@ -80,12 +80,13 @@ export async function runHandler(
 			if (isDependencyError) {
 				LOGGER.error(`Test output:\n${stdout}`);
 				const errorMessage = new vscode.TestMessage(stdout);
+				const duration = Date.now() - startDate;
 				if (test) {
-					run.errored(test, errorMessage, Date.now() - startDate);
+					run.errored(test, errorMessage, duration);
 				} else if (runAllTests) {
 					// When running all tests, mark all test items as errored
 					testingTools.controller.items.forEach((testItem) => {
-						run.errored(testItem, errorMessage, Date.now() - startDate);
+						run.errored(testItem, errorMessage, duration);
 					});
 				}
 			} else {
