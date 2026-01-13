@@ -4,6 +4,10 @@ All notable changes to the "positron-r-tester" extension will be documented in t
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 0.0.3
+
+- Emit an error message if `devtools` package is not installed when attempting to run tests.
+
 ## 0.0.2
 
 - Add `devtools` package as a requirement for running tests in Positron.
