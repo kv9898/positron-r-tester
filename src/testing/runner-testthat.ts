@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as vscode from 'vscode';
-import * as Positron from 'positron';
 import * as path from 'path';
 import { spawn } from 'child_process';
 import * as split2 from 'split2';

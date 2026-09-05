@@ -1,7 +1,10 @@
 import * as vscode from 'vscode';
-import * as positron from 'positron';
+import type { PositronApi } from '@posit-dev/positron';
 import * as fs from 'fs';
 import { LOGGER } from './extension';
+import { getPositronApi } from './positron';
+
+type ExecutionObserver = NonNullable<Parameters<PositronApi['runtime']['executeCode']>[6]>;
 
 /**
  * Returns an ExecutionObserver that shows an error message using the given template
@@ -18,7 +21,7 @@ export function getObserver(
     template: string,
     templateArguments: (string | number | boolean)[] = [],
     onAfterError?: () => void
-): positron.runtime.ExecutionObserver {
+): ExecutionObserver {
 
     function errorHandling(error: string) {
         const fullArgs = [...templateArguments, error];
@@ -36,9 +39,9 @@ export function getObserver(
                 restartLabel
             ).then(selection => {
                 if (selection === restartLabel) {
-                    positron.runtime.getForegroundSession().then((session) => {
+					getPositronApi().runtime.getForegroundSession().then((session) => {
                         if (session?.metadata.sessionId.startsWith('r-')) {
-                            positron.runtime.restartSession(session?.metadata.sessionId);
+							getPositronApi().runtime.restartSession(session?.metadata.sessionId);
                         } else {
                             vscode.window.showWarningMessage(
                                 vscode.l10n.t("No active R session found in the foreground. Please restart R manually.")
@@ -53,7 +56,7 @@ export function getObserver(
         }
     }
 
-    const observer: positron.runtime.ExecutionObserver = {
+    const observer: ExecutionObserver = {
         // onError: (error: string) => {
         //     errorHandling(stripAnsi(error));
         // },
@@ -101,6 +104,7 @@ export function stripAnsi(text: string): string {
 }
 
 export async function getActiveOrPreferredRRuntime(logger: typeof LOGGER) {
+	const positron = getPositronApi();
     // Try to find an active R session
     const sessions = await positron.runtime.getActiveSessions();
     const rSession = sessions.find(

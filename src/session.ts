@@ -1,13 +1,14 @@
-import * as positron from 'positron';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
 
 import { getObserver, waitForFile } from './utils';
+import { getPositronApi } from './positron';
 
 export async function checkInstalled(pkgName: string,
 	pkgVersion?: string): Promise<boolean> {
+	const positron = getPositronApi();
 
 	const hasR = await positron.runtime.getRegisteredRuntimes().then((runtimes) => runtimes.some((runtime) => runtime.languageId === 'r'));
 	if (!hasR) {
@@ -135,6 +136,7 @@ function compareVersions(installed: string, required: string): number {
 }
 
 export async function getLocale(): Promise<Locale> {
+	const positron = getPositronApi();
 	const tmpPath = path.join(os.tmpdir(), `r_locale_${Date.now()}.txt`);
 	const rTmpPath = tmpPath.replace(/\\/g, '/');
 
