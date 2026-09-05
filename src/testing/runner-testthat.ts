@@ -105,7 +105,10 @@ export async function runThatTest(
 	// For non-package projects, use testthat directly
 	const testthatMethod = testType === ItemType.Directory ? 'test_dir' : 'test_file';
 	const escapedLabel = test?.label.replace(/(['"`])/g, '\\$1');
-	const filterInsert = isSingleTest ? ` filter = '${escapedLabel || '<all tests>'}', ` : '';
+	// test_file() (used for single test_that()/describe() runs) filters individual
+	// tests via the `desc` argument, not `filter`; `filter` is only valid on test_dir()
+	// (added in testthat 3.2.0 for test_file()'s `desc`, 3.2.1 for describe()).
+	const descFilter = isSingleTest ? ` desc = '${escapedLabel || '<all tests>'}', ` : '';
 
 	// For test_dir, we need the tests/testthat directory path
 	// For test_file, we use the file path directly
