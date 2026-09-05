@@ -22,7 +22,7 @@
     "positron",
     "r-language"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "packageManager": "pnpm@11.8.0",
   "engines": {
     "vscode": "^1.103.0"
