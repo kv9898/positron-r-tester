@@ -53,6 +53,10 @@ Enable or disable the test explorer through Positron settings:
 
 Contributions are welcome! Please visit the [GitHub repository](https://github.com/kv9898/positron-r-tester) to report issues or submit pull requests.
 
+### Development
+
+Install dependencies with `pnpm install`. Use `pnpm run compile` for a development build, `pnpm run watch` while developing, and `pnpm test` to run the extension tests.
+
 ## License
 
 This extension includes code derived from Positron, which is licensed under the Elastic License 2.0.
